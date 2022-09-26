@@ -1,23 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+// import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
+import { typeOrmConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.HOST,
-      port: +process.env.PORT,
-      username: process.env.USER_NAME,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
-      entities: [],
-      synchronize: true,
-      autoLoadEntities: true,
-    }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true
+    // }),
+    TypeOrmModule.forRoot(typeOrmConfig),
     UsersModule,
   ],
   // controllers: [],
