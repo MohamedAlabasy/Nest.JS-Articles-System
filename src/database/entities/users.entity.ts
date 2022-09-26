@@ -1,4 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+
+import { Articles } from './articles.entity';
+import { Comments } from './comments.entity';
+import { Likes } from './likes.entity';
 
 @Entity({ name: 'users' })
 export class Users {
@@ -23,4 +27,14 @@ export class Users {
 
     @Column({ nullable: true, default: null })
     token: string;
+
+    // for relations
+    @OneToMany(() => Articles, (articles) => articles.user)
+    articles: Articles[];
+
+    @OneToMany(() => Comments, (comments) => comments.user)
+    comments: Comments[];
+
+    @OneToMany(() => Likes, (likes) => likes.user)
+    likes: Likes[];
 }
