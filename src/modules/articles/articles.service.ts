@@ -36,4 +36,11 @@ export class ArticlesService {
         return await this.articlesRepository.find();
     }
 
+    // #=======================================================================================#
+    // #			                        delete article                                     #
+    // #=======================================================================================#
+    async deleteArticle(id: number) {
+        return await this.articlesRepository.delete({ id })
+
+    }
 }

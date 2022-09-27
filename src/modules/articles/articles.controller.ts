@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 
@@ -45,7 +45,7 @@ export class ArticlesController {
         }
     }
     // #=======================================================================================#
-    // #			                        get all Articles                                   #
+    // #			                        get all articles                                   #
     // #=======================================================================================#
     @Get()
     async getAllArticles() {
@@ -59,6 +59,26 @@ export class ArticlesController {
                 statusCode: 200,
                 count: this.data.length,
                 data: this.data
+            }
+        } catch (error) {
+            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+    // #=======================================================================================#
+    // #			                        delete articles                                    #
+    // #=======================================================================================#
+    @Delete(':id')
+    async deleteArticle(@Param('id', ParseIntPipe) _id: number) {
+        try {
+            this.data = await this.articlesService.deleteArticle(_id)
+            console.log(this.data.affected);
+
+            if (this.data.affected === 0) {
+                throw new Error(`No articles with this id = ${_id}`)
+            }
+            return {
+                statusCode: 200,
+                message: 'articles deleted successfully'
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
