@@ -19,7 +19,7 @@ export class Users {
     @Column({ default: false })
     is_verification: boolean;
 
-    @Column()
+    @Column({ select: false })
     password: string;
 
     @Column({ default: false })
