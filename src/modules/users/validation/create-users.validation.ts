@@ -2,7 +2,7 @@ import { Exclude } from "class-transformer";
 import { IsNotEmpty, IsString, IsEmail, Length, Matches } from "class-validator";
 
 const PASSWORD_RULE = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,}$/;
-export class CreateUsersDto {
+export class CreateUsersValidation {
 
     @IsNotEmpty()
     @IsString()

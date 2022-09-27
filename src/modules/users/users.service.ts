@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Users } from 'src/database/entities/users.entity';
-import { CreateUsers } from './dto/create-users.dto';
+import { CreateUsersDto } from './dto/create-users.dto';
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(Users) private usersRepository: Repository<Users>) { }
@@ -12,7 +12,7 @@ export class UsersService {
     // #=======================================================================================#
     // #			                         create new user                                   #
     // #=======================================================================================#
-    async createNewUser(_user: CreateUsers): Promise<Users> {
+    async createNewUser(_user: CreateUsersDto): Promise<Users> {
         const user = this.usersRepository.create({
             name: _user.name,
             email: _user.email,
@@ -22,6 +22,12 @@ export class UsersService {
             token: null,
         });
         return await this.usersRepository.save(user);
+    }
+    // #=======================================================================================#
+    // #			                            login                                          #
+    // #=======================================================================================#
+    async login(_user: CreateUsersDto): Promise<Users> {
+        return await this.usersRepository.findOne({ where: { email: _user.email } });
     }
     // #=======================================================================================#
     // #                           get User by id for testing purpose                          #

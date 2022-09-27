@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { CreateUsers } from './dto/create-users.dto';
+import { CreateUsersDto } from './dto/create-users.dto';
 import { UsersService } from './users.service';
 import { HashPassword } from './pipes/hash-password.pipe';
 
 
 @Controller('users')
 export class UsersController {
-    private data: any;
+    private data: object | object[];
     constructor(private readonly usersService: UsersService) {
         this.data = null;
     }
@@ -16,9 +16,26 @@ export class UsersController {
     // #=======================================================================================#
     @Post('register')
     @UsePipes(ValidationPipe)
-    async createNewUser(@Body(HashPassword) _user: CreateUsers) {
+    async createNewUser(@Body(HashPassword) _userData: CreateUsersDto) {
         try {
-            this.data = await this.usersService.createNewUser(_user)
+            this.data = await this.usersService.createNewUser(_userData)
+            return {
+                statusCode: 200,
+                data: this.data
+            }
+        } catch (error) {
+            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    // #=======================================================================================#
+    // #			                            login                                          #
+    // #=======================================================================================#
+    @Post('login')
+    @UsePipes(ValidationPipe)
+    async login(@Body() _userData: CreateUsersDto) {
+        try {
+            this.data = await this.usersService.login(_userData)
             return {
                 statusCode: 200,
                 data: this.data
