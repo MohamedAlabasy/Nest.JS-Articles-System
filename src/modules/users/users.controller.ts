@@ -1,7 +1,8 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Users } from 'src/database/entities/users.entity';
 import { CreateUsers } from './dto/create-users.dto';
 import { UsersService } from './users.service';
+import { HashPassword } from './pipes/hash-password.pipe';
+
 
 @Controller('users')
 export class UsersController {
@@ -15,8 +16,7 @@ export class UsersController {
     // #=======================================================================================#
     @Post('register')
     @UsePipes(ValidationPipe)
-    // createNewUser(@Body() _user: CreateUsers): Promise<Users> {
-    async createNewUser(@Body() _user: CreateUsers) {
+    async createNewUser(@Body(HashPassword) _user: CreateUsers) {
         try {
             this.data = await this.usersService.createNewUser(_user)
             return {
