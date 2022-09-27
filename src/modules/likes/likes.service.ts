@@ -17,7 +17,7 @@ export class LikesService {
     async checkLikeArticle(user: number, article: number): Promise<Likes> {
         return await this.likeRepository.findOne({ where: { user, article } })
     }
-    
+
     // #=======================================================================================#
     // #			                      create like article                                  #
     // #=======================================================================================#
@@ -28,5 +28,11 @@ export class LikesService {
             user: _likeData.user,
         });
         return await this.likeRepository.save(this.data)
+    }
+    // #=======================================================================================#
+    // #			                        unlike article                                     #
+    // #=======================================================================================#
+    async unLikeArticle(id: number) {
+        return await this.likeRepository.delete({ id })
     }
 }
