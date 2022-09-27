@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto copy';
 
 @Controller('articles')
 export class ArticlesController {
@@ -59,6 +60,30 @@ export class ArticlesController {
                 statusCode: 200,
                 count: this.data.length,
                 data: this.data
+            }
+        } catch (error) {
+            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+    // #=======================================================================================#
+    // #			                        update articles                                    #
+    // #=======================================================================================#
+    @Patch(':id')
+    @UsePipes(ValidationPipe)
+    async updateArticle(@Param('id', ParseIntPipe) _id: number, @Body() _articleData: UpdateArticleDto) {
+        try {
+            // console.log(_articleData);
+
+            this.data = await this.articlesService.updateArticle(_id, _articleData)
+            console.log(this.data);
+
+            if (this.data.affected === 0) {
+                throw new Error(`No articles with this id = ${_id}`)
+            }
+            return {
+                statusCode: 200,
+                message: 'articles updated successfully',
+                data: this.data.data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)

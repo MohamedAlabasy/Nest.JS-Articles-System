@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString, Length, IsInt } from "class-validator";
 
-export class CreateArticleDto {
-
+export class UpdateArticleDto {
     @Length(3, 255, { message: 'title must be longer than 3 characters' })
     @IsString()
     @IsNotEmpty()
@@ -10,9 +9,4 @@ export class CreateArticleDto {
     @IsString()
     @IsNotEmpty()
     readonly description: string;
-
-    @IsInt()
-    @IsNotEmpty()
-    readonly user: number;
-
 }
