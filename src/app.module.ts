@@ -7,12 +7,14 @@ import { UsersModule } from './modules/users/users.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { CheckTokensMiddleware } from './middleware/check-tokens.middleware';
 import { EmailVerificationModule } from './modules/email-verification/email-verification.module';
+import { ArticlesModule } from './modules/articles/articles.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     UsersModule,
     EmailVerificationModule,
+    ArticlesModule,
   ]
 })
 export class AppModule implements NestModule {
