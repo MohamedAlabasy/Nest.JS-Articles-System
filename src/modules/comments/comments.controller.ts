@@ -49,9 +49,9 @@ export class CommentsController {
     // #=======================================================================================#
     // #			                        update comments                                    #
     // #=======================================================================================#
-    @Patch(':id')
+    @Patch(':commentID')
     @UsePipes(ValidationPipe)
-    async updateComment(@Param('id', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto) {
+    async updateComment(@Param('commentID', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto) {
         try {
             // console.log(_articleData);
 
@@ -76,14 +76,14 @@ export class CommentsController {
     // #=======================================================================================#
     // #			                        delete comments                                    #
     // #=======================================================================================#
-    @Delete(':id')
-    async deleteComment(@Param('id', ParseIntPipe) _id: number) {
+    @Delete(':commentID')
+    async deleteComment(@Param('commentID', ParseIntPipe) _commentID: number) {
         try {
-            this.data = await this.commentService.deleteComment(_id)
+            this.data = await this.commentService.deleteComment(_commentID)
             console.log(this.data.affected);
 
             if (this.data.affected === 0) {
-                throw new Error(`No articles with this id = ${_id}`)
+                throw new Error(`No articles with this id = ${_commentID}`)
             }
             return {
                 statusCode: 200,
