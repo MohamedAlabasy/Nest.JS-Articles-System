@@ -26,16 +26,6 @@ export class UsersController {
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
         }
-        // await this.usersService.createNewUser(_user)
-        //     .then((data) => {
-        //         console.log(data);
-        //         return {
-        //             statusCode: 200,
-        //             data: data
-        //         }
-        //     }).catch((error) => {
-        //         return new HttpException(error, HttpStatus.BAD_REQUEST)
-        //     })
     }
 
     // #=======================================================================================#
