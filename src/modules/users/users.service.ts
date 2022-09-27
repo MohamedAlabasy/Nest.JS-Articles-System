@@ -23,7 +23,9 @@ export class UsersService {
         });
         return await this.usersRepository.save(user);
     }
-
+    // #=======================================================================================#
+    // #                           get User by id for testing purpose                          #
+    // #=======================================================================================#
     async getUserById(id: number): Promise<Users> {
         return await this.usersRepository.findOneBy({ id });
     }
