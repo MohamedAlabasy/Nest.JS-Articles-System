@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpException, HttpStatus, Body, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 
@@ -17,6 +17,25 @@ export class ArticlesController {
         try {
             this.data = await this.articlesService.createArticle(_articleData)
 
+            return {
+                statusCode: 200,
+                data: this.data
+            }
+        } catch (error) {
+            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+    // #=======================================================================================#
+    // #			                        get article by id                                  #
+    // #=======================================================================================#
+    @Get(':id')
+    async getArticleById(@Param('id', ParseIntPipe) _id: number) {
+        try {
+            this.data = await this.articlesService.getArticleById(_id)
+
+            if (!this.data) {
+                throw new Error(`No articles with this id = ${_id}`)
+            }
             return {
                 statusCode: 200,
                 data: this.data

@@ -24,6 +24,12 @@ export class ArticlesService {
 
     }
     // #=======================================================================================#
+    // #			                        get article by id                                  #
+    // #=======================================================================================#
+    async getArticleById(id: number): Promise<Articles> {
+        return await this.articlesRepository.findOne({ relations: ['user'], where: { id } })
+    }
+    // #=======================================================================================#
     // #			                        get all articles                                   #
     // #=======================================================================================#
     async getAllArticles(): Promise<Articles[]> {
