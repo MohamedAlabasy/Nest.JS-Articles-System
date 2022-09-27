@@ -17,6 +17,6 @@ export class ForgotPassword {
     expire_at: Date;
 
     // for relations
-    @ManyToOne(() => Users, (user) => user.forgotPassword)
+    @ManyToOne(() => Users, (user) => user.forgotPassword, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     user: Users
 }

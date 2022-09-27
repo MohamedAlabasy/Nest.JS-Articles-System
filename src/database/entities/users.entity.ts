@@ -32,18 +32,18 @@ export class Users {
     token: string;
 
     // for relations
-    @OneToMany(() => Articles, (articles) => articles.user)
+    @OneToMany(() => Articles, (articles) => articles.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     articles: Articles[];
 
-    @OneToMany(() => Comments, (comments) => comments.user)
+    @OneToMany(() => Comments, (comments) => comments.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     comments: Comments[];
 
-    @OneToMany(() => Likes, (likes) => likes.user)
+    @OneToMany(() => Likes, (likes) => likes.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     likes: Likes[];
 
-    @OneToMany(() => EmailVerification, (emailVerification) => emailVerification.user)
+    @OneToMany(() => EmailVerification, (emailVerification) => emailVerification.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     emailVerification: EmailVerification[];
 
-    @OneToMany(() => ForgotPassword, (forgotPassword) => forgotPassword.user)
+    @OneToMany(() => ForgotPassword, (forgotPassword) => forgotPassword.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     forgotPassword: ForgotPassword[];
 }

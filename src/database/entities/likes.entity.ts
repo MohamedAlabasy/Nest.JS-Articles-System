@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
 import { Articles } from './articles.entity';
 import { Users } from './users.entity';
 
@@ -23,9 +23,12 @@ export class Likes {
     type: EmojiType;
 
     // for relations
-    @ManyToOne(() => Users, (user) => user.likes)
-    user: Users
+    @ManyToOne(() => Users, (user) => user.likes, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+    user: Users | number
 
-    @ManyToOne(() => Articles, (article) => article.likes)
-    article: Articles
+    // @Index(["user", "article"], { unique: true })
+    @ManyToOne(() => Articles, (article) => article.likes, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+    article: Articles | number
+
+
 }

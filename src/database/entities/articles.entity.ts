@@ -16,12 +16,12 @@ export class Articles {
     description: string;
 
     // for relations
-    @ManyToOne(() => Users, (user) => user.articles)
+    @ManyToOne(() => Users, (user) => user.articles, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     user: Users | number
 
-    @OneToMany(() => Comments, (comments) => comments.article)
+    @OneToMany(() => Comments, (comments) => comments.article, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     comments: Comments[];
 
-    @OneToMany(() => Likes, (likes) => likes.article)
+    @OneToMany(() => Likes, (likes) => likes.article, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     likes: Likes[];
 }

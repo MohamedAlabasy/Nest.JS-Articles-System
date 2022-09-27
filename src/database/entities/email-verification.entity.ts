@@ -17,6 +17,6 @@ export class EmailVerification {
     expire_at: Date;
 
     // for relations
-    @ManyToOne(() => Users, (user) => user.emailVerification)
+    @ManyToOne(() => Users, (user) => user.emailVerification, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     user: Users | number
 }

@@ -22,8 +22,8 @@ export class ArticlesService {
             user: _articleData.user
         });
         return await this.articlesRepository.save(this.data)
-
     }
+    
     // #=======================================================================================#
     // #			                        get article by id                                  #
     // #=======================================================================================#

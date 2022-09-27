@@ -12,9 +12,9 @@ export class Comments {
     comment: string;
 
     // for relations
-    @ManyToOne(() => Users, (user) => user.comments)
+    @ManyToOne(() => Users, (user) => user.comments, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     user: Users
 
-    @ManyToOne(() => Articles, (article) => article.comments)
+    @ManyToOne(() => Articles, (article) => article.comments, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     article: Articles
 }
