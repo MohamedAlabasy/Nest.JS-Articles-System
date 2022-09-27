@@ -1,10 +1,10 @@
-import nodemailer from 'nodemailer';
-import { Request } from 'express';
+import * as nodemailer from 'nodemailer';
 
 import EmailMessagesDesign from './emailMessagesDesign'
 import { PASS, USER } from '../../config/sendEmail.config'
+import { CreateUsersDto } from 'src/modules/users/dto/create-users.dto';
 
-export default function emailVerification(request: Request, code: number, isResetPassword: boolean = false) {
+export function emailVerification(_userData: CreateUsersDto, code: number, isResetPassword: boolean = false) {
 
 
     // create reusable transporter object using the default SMTP transport
@@ -25,10 +25,10 @@ export default function emailVerification(request: Request, code: number, isRese
     // setup email data with unicode symbols
     let mailOptions = {
         from: `"Articles System" <${USER}>`, // sender address
-        to: request.body.email, // list of receivers
+        to: _userData.email, // list of receivers
         subject: 'Articles System Verification Request', // Subject line
         text: 'Articles System', // plain text body
-        html: EmailMessagesDesign(request.body.name, code, isResetPassword) // html body
+        html: EmailMessagesDesign(_userData.name, code, isResetPassword) // html body
     };
 
     // send mail with defined transport object

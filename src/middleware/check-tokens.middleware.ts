@@ -24,7 +24,6 @@ export class CheckTokensMiddleware implements NestMiddleware {
         //   throw new Error('You must verification email first')
         // }
 
-        // console.log(decoded);
         next();
 
       });

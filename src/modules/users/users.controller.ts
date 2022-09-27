@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Headers, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
@@ -8,9 +8,7 @@ import { RegisterPipe } from './pipes/register.pipe';
 import { LoginDto } from './dto/login.dto';
 import { LoginPipe } from './pipes/login.pipe';
 import { ACCESS_TOKEN_SECRET } from '../../config/token.config';
-
-
-
+import { emailVerification } from '../../utilities/email/emailVerification';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +25,17 @@ export class UsersController {
     async createNewUser(@Body(RegisterPipe) _userData: CreateUsersDto) {
         try {
             this.data = await this.usersService.createNewUser(_userData)
+
+            // use create and wanna send email code
+            if (this.data) {
+                // auto generate code = 6 numbers
+                const registerCode = Math.floor(100000 + Math.random() * 900000);
+                const expireCodeTime = 3600000;
+
+                emailVerification(_userData, registerCode);
+            }
+
+
             return {
                 statusCode: 200,
                 data: this.data
