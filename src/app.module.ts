@@ -9,6 +9,7 @@ import { CheckTokensMiddleware } from './middleware/check-tokens.middleware';
 import { EmailVerificationModule } from './modules/email-verification/email-verification.module';
 import { ArticlesModule } from './modules/articles/articles.module';
 import { LikesModule } from './modules/likes/likes.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LikesModule } from './modules/likes/likes.module';
     EmailVerificationModule,
     ArticlesModule,
     LikesModule,
+    CommentsModule,
   ]
 })
 export class AppModule implements NestModule {
