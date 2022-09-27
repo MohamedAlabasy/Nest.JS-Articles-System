@@ -18,7 +18,4 @@ export class CreateUsersDto {
     @Length(8, 24)
     @Matches(PASSWORD_RULE, { message: 'Password should have 1 upper case, lowcase letter along with a number and special character.' })
     readonly password: string;
-
-    // @Exclude()
-    // readonly is_verification: boolean;
 }

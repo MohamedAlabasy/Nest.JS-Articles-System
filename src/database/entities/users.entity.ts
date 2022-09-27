@@ -19,7 +19,8 @@ export class Users {
     @Column({ default: false })
     is_verification: boolean;
 
-    @Column({ select: false })
+    // @Column({ select: false })
+    @Column()
     password: string;
 
     @Column({ default: false })
