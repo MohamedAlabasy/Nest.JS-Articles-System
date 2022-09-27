@@ -40,7 +40,7 @@ export class Users {
 
     @OneToMany(() => Likes, (likes) => likes.user)
     likes: Likes[];
-    
+
     @OneToMany(() => EmailVerification, (emailVerification) => emailVerification.user)
     emailVerification: EmailVerification[];
 

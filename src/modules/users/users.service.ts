@@ -30,6 +30,13 @@ export class UsersService {
         return await this.usersRepository.save(this.data);
     }
     // #=======================================================================================#
+    // #			                    activate user account                                  #
+    // #=======================================================================================#
+    async activateUserAccount(_userID: number) {
+        return await this.usersRepository.update({ id: _userID }, { is_verification: true })
+    }
+
+    // #=======================================================================================#
     // #			                            login                                          #
     // #=======================================================================================#
     async login(_userData: LoginDto): Promise<Users> {

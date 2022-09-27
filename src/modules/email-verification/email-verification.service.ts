@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailVerification } from 'src/database/entities/email-verification.entity';
 import { Repository } from 'typeorm';
+import { CreateEmailActivateDto } from './dto/create-email-activate.dto';
 
 @Injectable()
 export class EmailVerificationService {
@@ -22,5 +23,13 @@ export class EmailVerificationService {
             user
         });
         return await this.emailVerificationRepository.save(this.data);
+    }
+
+    // #=======================================================================================#
+    // #			                        check code                                         #
+    // #=======================================================================================#
+    async checkCode(_emailActivateData: CreateEmailActivateDto): Promise<EmailVerification> {
+        // this.data = await this.emailVerificationRepository.find({relations:['user'],where:{ user: _emailActivateData.user} })
+        return await this.emailVerificationRepository.query(`select * from email_verification where userId = ${_emailActivateData.user}`)
     }
 }

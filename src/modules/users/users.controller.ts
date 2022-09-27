@@ -10,6 +10,7 @@ import { LoginPipe } from './pipes/login.pipe';
 import { ACCESS_TOKEN_SECRET } from '../../config/token.config';
 import { emailVerification } from '../../utilities/email/emailVerification';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
+import { CreateEmailActivateDto } from '../email-verification/dto/create-email-activate.dto';
 
 @Controller('users')
 export class UsersController {
@@ -54,6 +55,37 @@ export class UsersController {
         }
     }
 
+    // #=======================================================================================#
+    // #			                        activate email                                     #
+    // #=======================================================================================#
+    @Post('activate')
+    @UsePipes(ValidationPipe)
+    async activateEmail(@Body() _emailActivateData: CreateEmailActivateDto) {
+        try {
+            this.data = await this.emailVerificationService.checkCode(_emailActivateData)
+
+            if (!this.data) {
+                throw new Error(`Not send code to user with id = ${_emailActivateData.user}`)
+            } else if (_emailActivateData.code != this.data[0].code) {
+                throw new Error('invalid code');
+            } else if (new Date() >= this.data.expire_at) {
+                // If the code exceeds a certain time and it has not been used in this application for 24 hours
+                throw new Error('This code has expired');
+            }
+
+            // update user data is_verification = true
+            this.data = await this.usersService.activateUserAccount(_emailActivateData.user)
+
+            if (!this.data) throw new Error('can\'t activate this email');
+
+            return {
+                statusCode: 200,
+                message: 'email activation successfully'
+            }
+        } catch (error) {
+            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
+        }
+    }
     // #=======================================================================================#
     // #			                            login                                          #
     // #=======================================================================================#

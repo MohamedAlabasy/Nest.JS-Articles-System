@@ -13,9 +13,7 @@ import { EmailVerificationModule } from './modules/email-verification/email-veri
     TypeOrmModule.forRoot(typeOrmConfig),
     UsersModule,
     EmailVerificationModule,
-  ],
-  // controllers: [],
-  // providers: [],
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

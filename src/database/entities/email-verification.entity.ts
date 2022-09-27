@@ -18,6 +18,5 @@ export class EmailVerification {
 
     // for relations
     @ManyToOne(() => Users, (user) => user.emailVerification)
-    user: Users
-
+    user: Users | number
 }
