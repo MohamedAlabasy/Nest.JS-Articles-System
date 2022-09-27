@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Users } from './users.entity';
 
 @Entity({ name: 'forgot_password' })
 export class ForgotPassword {
@@ -14,4 +15,8 @@ export class ForgotPassword {
 
     @Column()
     expire_at: Date;
+
+    // for relations
+    @ManyToOne(() => Users, (user) => user.forgotPassword)
+    user: Users
 }

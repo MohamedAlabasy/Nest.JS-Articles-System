@@ -9,11 +9,15 @@ import { LoginDto } from './dto/login.dto';
 import { LoginPipe } from './pipes/login.pipe';
 import { ACCESS_TOKEN_SECRET } from '../../config/token.config';
 import { emailVerification } from '../../utilities/email/emailVerification';
+import { EmailVerificationService } from '../email-verification/email-verification.service';
 
 @Controller('users')
 export class UsersController {
     private data: any;
-    constructor(private readonly usersService: UsersService) {
+    constructor(
+        private readonly usersService: UsersService,
+        private readonly emailVerificationService: EmailVerificationService
+    ) {
         this.data = null;
     }
 
@@ -31,11 +35,16 @@ export class UsersController {
                 // auto generate code = 6 numbers
                 const registerCode = Math.floor(100000 + Math.random() * 900000);
                 const expireCodeTime = 3600000;
+                console.log(registerCode, expireCodeTime, this.data.id);
+                console.log(typeof registerCode, typeof expireCodeTime, typeof this.data.id);
 
-                emailVerification(_userData, registerCode);
+                const storeEmailCode = await this.emailVerificationService.createNewEmailVerification(registerCode, expireCodeTime, this.data.id)
+
+                if (storeEmailCode)
+                    emailVerification(_userData, registerCode);
+                else
+                    throw new Error(`can't send email code to this email = ${_userData.email}`)
             }
-
-
             return {
                 statusCode: 200,
                 data: this.data

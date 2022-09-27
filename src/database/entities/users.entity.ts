@@ -2,7 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 
 import { Articles } from './articles.entity';
 import { Comments } from './comments.entity';
+import { EmailVerification } from './email-verification.entity';
 import { Likes } from './likes.entity';
+import { ForgotPassword } from './forgot-password.entity';
 
 @Entity({ name: 'users' })
 export class Users {
@@ -38,4 +40,10 @@ export class Users {
 
     @OneToMany(() => Likes, (likes) => likes.user)
     likes: Likes[];
+    
+    @OneToMany(() => EmailVerification, (emailVerification) => emailVerification.user)
+    emailVerification: EmailVerification[];
+
+    @OneToMany(() => ForgotPassword, (forgotPassword) => forgotPassword.user)
+    forgotPassword: ForgotPassword[];
 }

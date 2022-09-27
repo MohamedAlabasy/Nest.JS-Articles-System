@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Users } from './users.entity';
 
 @Entity({ name: 'email_verification' })
 export class EmailVerification {
@@ -14,4 +15,9 @@ export class EmailVerification {
 
     @Column()
     expire_at: Date;
+
+    // for relations
+    @ManyToOne(() => Users, (user) => user.emailVerification)
+    user: Users
+
 }
