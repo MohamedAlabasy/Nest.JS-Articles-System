@@ -30,7 +30,7 @@ export class UsersController {
     async createNewUser(@Body(RegisterPipe) _userData: CreateUsersDto) {
         try {
             this.data = await this.usersService.createNewUser(_userData)
-
+                
             // use create and wanna send email code
             if (this.data) {
                 // auto generate code = 6 numbers

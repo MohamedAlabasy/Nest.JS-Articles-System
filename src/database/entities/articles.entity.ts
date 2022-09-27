@@ -17,7 +17,7 @@ export class Articles {
 
     // for relations
     @ManyToOne(() => Users, (user) => user.articles)
-    user: Users
+    user: Users | number
 
     @OneToMany(() => Comments, (comments) => comments.article)
     comments: Comments[];
