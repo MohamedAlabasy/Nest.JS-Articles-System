@@ -5,7 +5,6 @@
 The goal of the project is to create articles by users and comment or like them after they create an account for them in the application and confirm their account by email.  
 Every person who created an article, comment or like can only edit or delete it whenever he wants.
 
-
 ## To run this project
 
 `Step 1` : To use this project must install [Node.js](https://nodejs.org/en/) and [Mysql](https://www.mysql.com/downloads/) as database Then Download the source code
@@ -19,65 +18,72 @@ git clone https://github.com/MohamedAlabasy/Nest.JS-Articles-System.git
 ```
 npm i
 ```
+
 `Step 3` : Create a database called `articles_system` , then to run server on watch mode :
+
 ```
 npm run start:dev
 ```
 
 `Step 4` : Open [postman](https://www.postman.com/downloads/) and import : [API Collation](https://github.com/MohamedAlabasy/Nest.JS-Articles-System/blob/main/api_collection.json) You will find it in the project file.
 
-
 <h3 align="center">To help you understand the project</h3>
-
 
 ## Folder Structure
 
 ```bash
 ├── src
-│   ├── controllers
-│   │   ├── adsController.ts => `for handel ADS function`
-│   │   └── authController.ts => `for handel authentication function`
+│   ├── config => `for app configuration`
+│   │   ├── sendEmail.config.ts
+│   │   ├── token.config.ts
+│   │   └── typeorm.config.ts
+│   │
+│   │
+│   ├── database
+│   │   └── entities => `for database entities`
+│   │         |── articles.entity.ts
+│   │         |── comments.entity.ts
+│   │         |── email-verification.entity.ts
+│   │         |── forgot-password.entity.ts
+│   │         |── likes.entity.ts
+│   │         └── users.entity.ts
 │   │
 │   │
 │   ├── middleware
-│   │   ├── morganMiddleware.ts => `for log url, method and statue of requests`
-│   │   │── notFoundMiddleware.ts => `for not Found Middleware`
-│   │   └── errorMiddleware.ts => `for error Middleware`
+│   │   ├── check-tokens.middleware.ts => `for check tokens on all requests`
+│   │   └── logger.middleware.middleware.ts => `for log url, method and statue of requests`
 │   │
 │   │
 │   ├── models
-│   │   ├── emailVerificationModels.ts => `for handel email verification Models`
-│   │   │── resetPasswordModels.ts => `for handel reset password Models`
-│   │   │── adsModels.ts => `for handel ADS Models`
-│   │   └── userModels.ts => `for handel user Models`
+│   │   ├── articles => `for handel articles code`
+│   │   |     └── dto => `for handel data transfer object for articles`
+│   │   │── comments => `for handel comments code`
+│   │   |     └── dto => `for handel data transfer object for comments`
+│   │   │── email-verification => `for handel email-verification code`
+│   │   |     └── dto => `for handel data transfer object for email-verification`
+│   │   │── forgot-password => `for handel forgot-password code`
+│   │   |     └── dto => `for handel data transfer object for forgot-password`
+│   │   │── likes => `for handel likes code`
+│   │   |     └── dto => `for handel data transfer object for likes`
+│   │   └── users => `for handel users code`
+│   │         └── dto => `for handel data transfer object for users`
 │   │
 │   │
-│   ├── Public
-│   │   └── assets => `contains ADS (photos and videos)`
-│   │
-│   │
-│   ├── routes
-│   │   ├── api
-│   │   │   │── authRouter.ts => `for handel authentication route`
-│   │   │   └── adsRouter.ts => `for handel ADS route`
-│   │   └── routes.ts => `import all routes and exports it to index`
-│   │
-│   │
-│   ├── tests => `for testing purposes`
-│   │   ├── helpers
-│   │   │   └── reporter.ts
-│   │   └── indexSpec.ts => `for testing endpoint api`
+│   ├── pipes => `for handel custom pipe`
+│   │   ├── email-lower-case.pipe.ts
+│   │   ├── hash-password.pipe.ts
+│   │   └── register.pipe.ts
 │   │
 │   │
 │   ├── utilities
-│   │   ├── helpers
+│   │   ├── email
 │   │   │   │── emailVerification.ts => `for send email message`
 │   │   │   └── emailMessagesDesign.ts => `for email messages design ( HTML & CSS )`
-│   │   │── checkTokens.ts => `for Request check Tokens`
-│   │   └── validateRequest.ts => `for validate Request`
+│   │   │── common.ts => `for common variables`
+│   │   └── get-id-from-token.ts => `to get id from token`
 │   │
 │   │
-│   └── index.ts => `to run the server`
+│   └── main.ts => `to run the server`
 └──
 ```
 
@@ -118,6 +124,7 @@ npm run test:e2e
 # test coverage
 npm run test:cov
 ```
+
 <hr>
 
 Here are the [Command](https://github.com/MohamedAlabasy/Nest.JS-Articles-System/blob/main/command.txt) that were used in the project, You will find it in the project file.
