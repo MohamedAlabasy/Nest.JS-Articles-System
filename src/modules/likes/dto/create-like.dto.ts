@@ -1,14 +1,8 @@
-import { IsNotEmpty, IsString, Length, IsInt, IsIn, IsEnum } from "class-validator";
-export enum EmojiType {
-    LIKE = 'like',
-    SMILE = 'smile',
-    LOVE = 'love',
-    ANGRY = 'angry',
-}
+import { IsNotEmpty, IsInt, IsEnum } from "class-validator";
+import { EmojiType, EMOJI_MESSAGE, EMOJI_OPTION } from '../../../utilities/common'
 export class CreateLikeDto {
 
-    // @IsEnum([],)
-    @IsEnum(['like', 'smile', 'love', 'angry'], { message: 'type must be like or smile or love or angry' })
+    @IsEnum(EMOJI_OPTION, EMOJI_MESSAGE)
     @IsNotEmpty()
     readonly type: EmojiType;
 

@@ -1,13 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
 import { Articles } from './articles.entity';
 import { Users } from './users.entity';
+import { EmojiType } from '../../utilities/common';
 
-export enum EmojiType {
-    LIKE = 'like',
-    SMILE = 'smile',
-    LOVE = 'love',
-    ANGRY = 'angry',
-}
 
 @Entity({ name: 'likes' })
 export class Likes {

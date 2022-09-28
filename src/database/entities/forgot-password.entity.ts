@@ -18,5 +18,5 @@ export class ForgotPassword {
 
     // for relations
     @ManyToOne(() => Users, (user) => user.forgotPassword, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-    user: Users
+    user: Users | number
 }

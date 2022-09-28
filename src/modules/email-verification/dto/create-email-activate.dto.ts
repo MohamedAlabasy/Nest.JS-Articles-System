@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt } from "class-validator";
+import { IsNotEmpty,IsInt } from "class-validator";
 
 export class CreateEmailActivateDto {
 

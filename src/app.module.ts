@@ -10,6 +10,8 @@ import { EmailVerificationModule } from './modules/email-verification/email-veri
 import { ArticlesModule } from './modules/articles/articles.module';
 import { LikesModule } from './modules/likes/likes.module';
 import { CommentsModule } from './modules/comments/comments.module';
+import { ForgotPasswordController } from './modules/forgot-password/forgot-password.controller';
+import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { CommentsModule } from './modules/comments/comments.module';
     ArticlesModule,
     LikesModule,
     CommentsModule,
-  ]
+    ForgotPasswordModule,
+  ],
+  controllers: [ForgotPasswordController]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
