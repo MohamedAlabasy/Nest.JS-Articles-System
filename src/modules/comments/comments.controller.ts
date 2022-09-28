@@ -30,13 +30,14 @@ export class CommentsController {
     // #			                     get all comments on articles                          #
     // #=======================================================================================#
     @Get(":articleID")
-    async getAllComments(@Param('articleID', ParseIntPipe) _articleID: number) {
+    async getAllCommentsOnArticles(@Param('articleID', ParseIntPipe) _articleID: number) {
         try {
-            this.data = await this.commentService.getAllComments(_articleID)
+            this.data = await this.commentService.getAllCommentsOnArticles(_articleID)
 
             if (this.data.length == 0) {
                 throw new Error('No comments on this articles to show')
             }
+
             return {
                 statusCode: 200,
                 count: this.data.length,
@@ -57,14 +58,14 @@ export class CommentsController {
             console.log(this.data);
 
             if (this.data.affected === 0) {
-                throw new Error(`No articles with this id = ${_commentID}`)
+                throw new Error(`No comment with this id = ${_commentID}`)
             }
             this.data = await this.commentService.getCommentById(_commentID)
 
 
             return {
                 statusCode: 200,
-                message: 'articles updated successfully',
+                message: 'comment updated successfully',
                 data: this.data
             }
         } catch (error) {
@@ -81,11 +82,11 @@ export class CommentsController {
             console.log(this.data.affected);
 
             if (this.data.affected === 0) {
-                throw new Error(`No articles with this id = ${_commentID}`)
+                throw new Error(`No comment with this id = ${_commentID}`)
             }
             return {
                 statusCode: 200,
-                message: 'articles deleted successfully'
+                message: 'comment deleted successfully'
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)

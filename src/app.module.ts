@@ -30,6 +30,10 @@ export class AppModule implements NestModule {
       .apply(CheckTokensMiddleware).exclude(
         { path: 'users/login', method: RequestMethod.POST },
         { path: 'users/register', method: RequestMethod.POST },
+        { path: 'users/activate', method: RequestMethod.POST },
+        { path: 'forgotPassword/checkEmail', method: RequestMethod.POST },
+        { path: 'forgotPassword/resetPassword', method: RequestMethod.POST },
+        { path: 'articles', method: RequestMethod.GET },
       ).forRoutes('*')
   }
 }

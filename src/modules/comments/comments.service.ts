@@ -27,8 +27,9 @@ export class CommentsService {
     // #=======================================================================================#
     // #			                  get all comment on article                               #
     // #=======================================================================================#
-    async getAllComments(article: number): Promise<Comments[]> {
-        return await this.commentsRepository.find({ relations: ['user', 'article'], where: { article } })
+    async getAllCommentsOnArticles(article: number): Promise<Comments[]> {
+        // return await this.commentsRepository.find({ where: { article: article }, relations: ['user', 'article'] })
+        return await this.commentsRepository.query(`select * from comments where articleId = ${article}`)
     }
 
     // #=======================================================================================#

@@ -28,9 +28,6 @@ export class Users {
     @Column({ default: false })
     is_admin: boolean;
 
-    @Column({ nullable: true, default: null })
-    token: string;
-
     // for relations
     @OneToMany(() => Articles, (articles) => articles.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     articles: Articles[];

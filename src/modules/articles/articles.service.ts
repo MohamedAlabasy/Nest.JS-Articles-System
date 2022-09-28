@@ -23,7 +23,7 @@ export class ArticlesService {
         });
         return await this.articlesRepository.save(this.data)
     }
-    
+
     // #=======================================================================================#
     // #			                        get article by id                                  #
     // #=======================================================================================#
@@ -34,7 +34,7 @@ export class ArticlesService {
     // #			                        get all articles                                   #
     // #=======================================================================================#
     async getAllArticles(): Promise<Articles[]> {
-        return await this.articlesRepository.find();
+        return await this.articlesRepository.find({ relations: ['user'] });
     }
     // #=======================================================================================#
     // #			                        update articles                                    #

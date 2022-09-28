@@ -4,7 +4,6 @@ import { PASSWORD_RULE, PASSWORD_MESSAGE } from "../../../utilities/common";
 export class ResetPasswordDto {
 
     @IsInt()
-    @Length(6, 6, { message: 'code must be 6 number' })
     @IsNotEmpty()
     readonly code: number;
 

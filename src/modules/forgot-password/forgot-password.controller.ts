@@ -56,7 +56,7 @@ export class ForgotPasswordController {
         try {
             this.data = await this.forgotPasswordService.checkCode(_resetData)
 
-            if (!this.data) {
+            if (!this.data[0]) {
                 throw new Error(`No code send to user with id = ${_resetData.user}`)
             } else if (_resetData.code != this.data[0].code) {
                 throw new Error('invalid code');

@@ -45,6 +45,7 @@ export class UsersController {
             }
             return {
                 statusCode: 200,
+                message: `The code has been sent to your email = ${_userData.email}`,
                 data: this.data
             }
         } catch (error) {
@@ -59,6 +60,11 @@ export class UsersController {
     @UsePipes(ValidationPipe)
     async activateEmail(@Body() _emailActivateData: CreateEmailActivateDto) {
         try {
+
+            if (_emailActivateData.code.toString().length !== 6) {
+                throw new Error('the code must be 6 number')
+            }
+
             this.data = await this.emailVerificationService.checkCode(_emailActivateData)
 
             if (!this.data) {
@@ -112,28 +118,6 @@ export class UsersController {
                 data: this.data
             }
         } catch (error) {
-            return new HttpException(error.message, HttpStatus.BAD_REQUEST)
-        }
-    }
-
-    // #=======================================================================================#
-    // #                           get User by id for testing purpose                          #
-    // #=======================================================================================#
-    @Get('show/:id')
-    async getUserById(@Param('id', ParseIntPipe) _userID: number) {
-        try {
-            this.data = await this.usersService.getUserById(_userID)
-
-            if (!this.data) {
-                throw new Error(`No user with this id = ${_userID}`)
-            }
-
-            return {
-                statusCode: 200,
-                data: this.data
-            }
-        }
-        catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
         }
     }

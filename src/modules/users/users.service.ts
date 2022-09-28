@@ -25,7 +25,6 @@ export class UsersService {
             password: _userData.password,
             is_verification: false,
             is_admin: false,
-            token: null,
         });
         return await this.usersRepository.save(this.data);
     }
@@ -55,12 +54,5 @@ export class UsersService {
     // #=======================================================================================#
     async resetUserPassword(id: number, password: string) {
         return await this.usersRepository.update({ id }, { password })
-    }
-
-    // #=======================================================================================#
-    // #                           get User by id for testing purpose                          #
-    // #=======================================================================================#
-    async getUserById(id: number): Promise<Users> {
-        return await this.usersRepository.findOneBy({ id });
     }
 }
