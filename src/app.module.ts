@@ -35,6 +35,7 @@ export class AppModule implements NestModule {
         { path: 'forgotPassword/resetPassword', method: RequestMethod.POST },
         { path: 'articles', method: RequestMethod.GET },
         { path: 'likes/:articleID', method: RequestMethod.GET },
+        { path: 'comments/:articleID', method: RequestMethod.GET },
       ).forRoutes('*')
   }
 }

@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Patch, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Headers, Patch, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { GET_ID_FROM_TOKEN } from 'src/utilities/get-id-from-token';
+import { ArticlesService } from '../articles/articles.service';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto copy';
@@ -6,17 +8,30 @@ import { UpdateCommentDto } from './dto/update-comment.dto copy';
 @Controller('comments')
 export class CommentsController {
     private data: any;
-    constructor(private readonly commentService: CommentsService) {
+    constructor(
+        private readonly commentService: CommentsService,
+        private readonly articlesService: ArticlesService
+    ) {
         this.data = null;
     }
     // #=======================================================================================#
-    // #			                          create Article                                   #
+    // #			                          create comment                                   #
     // #=======================================================================================#
     @Post()
     @UsePipes(ValidationPipe)
-    async createArticle(@Body() _commentData: CreateCommentDto) {
+    async createArticle(@Body() _commentData: CreateCommentDto, @Headers() _headers) {
         try {
+            _commentData.user = GET_ID_FROM_TOKEN(_headers)
+
+            this.data = await this.articlesService.getArticleById(_commentData.article)
+            if (!this.data) {
+                throw new Error(`no articles with this id = ${_commentData.article}`)
+            }
+
             this.data = await this.commentService.createComment(_commentData)
+            if (this.data.affected === 0) {
+                throw new Error(`can't create comment on this articles with this id = ${_commentData.article}`)
+            }
 
             return {
                 statusCode: 200,
@@ -52,21 +67,27 @@ export class CommentsController {
     // #=======================================================================================#
     @Patch(':commentID')
     @UsePipes(ValidationPipe)
-    async updateComment(@Param('commentID', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto) {
+    async updateComment(@Param('commentID', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto, @Headers() _headers) {
         try {
-            this.data = await this.commentService.updateComment(_commentID, _commentData)
-            console.log(this.data);
+            _commentData.user = GET_ID_FROM_TOKEN(_headers)
 
-            if (this.data.affected === 0) {
-                throw new Error(`No comment with this id = ${_commentID}`)
-            }
             this.data = await this.commentService.getCommentById(_commentID)
+            if (!this.data) {
+                throw new Error(`no comment with this id = ${_commentID}`)
+            }
 
+            if (this.data.user.id !== GET_ID_FROM_TOKEN(_headers)) {
+                throw new Error('this comment can only be modified by the person who created it')
+            }
+
+            this.data = await this.commentService.updateComment(_commentID, _commentData)
+            if (this.data.affected === 0) {
+                throw new Error('can\'t update this comment please try again')
+            }
 
             return {
                 statusCode: 200,
                 message: 'comment updated successfully',
-                data: this.data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -76,14 +97,24 @@ export class CommentsController {
     // #			                        delete comments                                    #
     // #=======================================================================================#
     @Delete(':commentID')
-    async deleteComment(@Param('commentID', ParseIntPipe) _commentID: number) {
+    async deleteComment(@Param('commentID', ParseIntPipe) _commentID: number, @Headers() _headers) {
         try {
-            this.data = await this.commentService.deleteComment(_commentID)
-            console.log(this.data.affected);
+            const userID = GET_ID_FROM_TOKEN(_headers)
 
-            if (this.data.affected === 0) {
-                throw new Error(`No comment with this id = ${_commentID}`)
+            this.data = await this.commentService.getCommentById(_commentID)
+            if (!this.data) {
+                throw new Error(`no comment with this id = ${_commentID}`)
             }
+
+            if (this.data.user.id !== userID) {
+                throw new Error('this comment can only be deleted by the person who created it')
+            }
+
+            this.data = await this.commentService.deleteComment(_commentID)
+            if (this.data.affected === 0) {
+                throw new Error('can\'t delete this comment please try again')
+            }
+
             return {
                 statusCode: 200,
                 message: 'comment deleted successfully'

@@ -11,8 +11,5 @@ export class CreateCommentDto {
     @IsNotEmpty()
     readonly article: number;
 
-    @IsInt()
-    @IsNotEmpty()
-    readonly user: number;
-
+    user: number;
 }

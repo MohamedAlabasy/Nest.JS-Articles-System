@@ -4,4 +4,7 @@ export class UpdateCommentDto {
     @IsString()
     @IsNotEmpty()
     readonly comment: string;
+
+    user: number;
+
 }
