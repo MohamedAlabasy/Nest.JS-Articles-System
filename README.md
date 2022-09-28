@@ -24,8 +24,11 @@ npm i
 npm run start:dev
 ```
 
+`Step 4` : Open [postman](https://www.postman.com/downloads/) and import : [API Collation](https://github.com/MohamedAlabasy/Nest.JS-Articles-System/blob/main/api_collection.json) You will find it in the project file.
+
 
 <h3 align="center">To help you understand the project</h3>
+
 
 ## Folder Structure
 
@@ -84,9 +87,6 @@ npm run start:dev
    <img src="https://user-images.githubusercontent.com/93389016/192885498-a6b67fc6-d45c-4227-8b59-a07dffa6889a.jpg" alt="Build Status">
 </p>
 
-
-`Step 4` : Open [postman](https://www.postman.com/downloads/) and import : [API Collation](https://github.com/MohamedAlabasy/Node.JS-ADS-System/blob/main/api_collection.json) You will find it in the project file.
-
 ### After completing the registration as a new user, you must go to your email to confirm the email through the code sent to you
 
    <img src="https://user-images.githubusercontent.com/93389016/192886872-2c8e9c28-f0a0-4fca-ac30-77f469bb119a.png" alt="Build Status">
@@ -120,4 +120,4 @@ npm run test:cov
 ```
 <hr>
 
-Here are the [Command](https://github.com/MohamedAlabasy/Node.JS-ADS-System/blob/main/command.txt) that were used in the project, You will find it in the project file.
+Here are the [Command](https://github.com/MohamedAlabasy/Nest.JS-Articles-System/blob/main/command.txt) that were used in the project, You will find it in the project file.
