@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\":213055,\r\n    \"user\":1\r\n}",
+							"raw": "{\r\n    \"code\":760762,\r\n    \"user\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -134,7 +134,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\":394202,\r\n    \"password\":\"987654321+Aa\",\r\n    \"user\":1\r\n}",
+							"raw": "{\r\n    \"code\":956705,\r\n    \"password\":\"987654321+Aa\",\r\n    \"email\":\"eng.mohamed.alabasy@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -384,16 +384,6 @@
 				{
 					"name": "update article",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImVuZy5tb2hhbWVkLmFsYWJhc3lAZ21haWwuY29tIiwiaXNfdmVyaWZpY2F0aW9uIjp0cnVlLCJpYXQiOjE2NjQzODg4NDUsImV4cCI6MTY2NDQ3NTI0NX0.NSnaZpGkILYep6OCi_rG-14zxg_b--riolrX2Z5UnYc",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
