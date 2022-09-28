@@ -33,9 +33,7 @@ export function emailVerification(_userData, code: number, isResetPassword: bool
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log(error);
             throw new Error(`Verification email error`)
         }
-        console.log('Message sent: %s', info.messageId);
     });
 }

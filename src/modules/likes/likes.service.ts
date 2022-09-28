@@ -15,8 +15,6 @@ export class LikesService {
     // #			                      check like article                                   #
     // #=======================================================================================#
     async checkLikeArticle(user: number, article: number): Promise<Likes[]> {
-        console.log(user, article);
-
         // return await this.likeRepository.find({ relations: ['user', 'article'], where: { user: user, article: article } })
         return await this.likeRepository.query(`select * from likes where userId=${user} and articleId = ${article}`)
     }
