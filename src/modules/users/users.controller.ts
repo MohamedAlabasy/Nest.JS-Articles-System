@@ -112,6 +112,9 @@ export class UsersController {
                 expiresIn: 86400 //for 24 hour
             });
 
+            // to remove password from object before retune data to user 
+            delete this.data.password
+            
             return {
                 statusCode: 200,
                 token,

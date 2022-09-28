@@ -38,7 +38,15 @@ export class UsersService {
     // #			                            login                                          #
     // #=======================================================================================#
     async login(_userData: LoginDto): Promise<Users> {
-        return await this.usersRepository.findOne({ where: { email: _userData.email } });
+        return await this.usersRepository.findOne({
+            where: { email: _userData.email }, select: {
+                id: true,
+                name: true,
+                email: true,
+                is_verification: true,
+                password: true
+            }
+        });
     }
 
     // #=======================================================================================#

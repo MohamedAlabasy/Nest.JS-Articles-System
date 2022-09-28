@@ -21,8 +21,7 @@ export class Users {
     @Column({ default: false })
     is_verification: boolean;
 
-    // @Column({ select: false })
-    @Column()
+    @Column({ select: false })
     password: string;
 
     // for relations
