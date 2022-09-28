@@ -43,6 +43,9 @@ export class UsersController {
                 else
                     throw new Error(`can't send email code to this email = ${_userData.email}`)
             }
+            
+            // to remove password from object before retune data to user 
+            delete this.data.password
             return {
                 statusCode: 200,
                 message: `The code has been sent to your email = ${_userData.email}`,
