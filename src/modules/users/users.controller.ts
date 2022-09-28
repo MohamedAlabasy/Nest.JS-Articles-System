@@ -11,6 +11,7 @@ import { ACCESS_TOKEN_SECRET } from '../../config/token.config';
 import { emailVerification } from '../../utilities/email/emailVerification';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
 import { CreateEmailActivateDto } from '../email-verification/dto/create-email-activate.dto';
+import { REGISTER_CODE, EXPIRE_CODE_TIME } from '../../utilities/common'
 
 @Controller('users')
 export class UsersController {
@@ -30,16 +31,12 @@ export class UsersController {
     async createNewUser(@Body(RegisterPipe) _userData: CreateUsersDto) {
         try {
             this.data = await this.usersService.createNewUser(_userData)
-                
+
             // use create and wanna send email code
             if (this.data) {
                 // auto generate code = 6 numbers
-                const registerCode = Math.floor(100000 + Math.random() * 900000);
-                const expireCodeTime = 3600000;
-                console.log(registerCode, expireCodeTime, this.data.id);
-                console.log(typeof registerCode, typeof expireCodeTime, typeof this.data.id);
-
-                const storeEmailCode = await this.emailVerificationService.createNewEmailVerification(registerCode, expireCodeTime, this.data.id)
+                const registerCode = REGISTER_CODE
+                const storeEmailCode = await this.emailVerificationService.createNewEmailVerification(registerCode, EXPIRE_CODE_TIME, this.data.id)
 
                 if (storeEmailCode)
                     emailVerification(_userData, registerCode);

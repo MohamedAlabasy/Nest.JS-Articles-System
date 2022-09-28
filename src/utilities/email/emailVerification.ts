@@ -4,7 +4,7 @@ import EmailMessagesDesign from './emailMessagesDesign'
 import { PASS, USER } from '../../config/sendEmail.config'
 import { CreateUsersDto } from 'src/modules/users/dto/create-users.dto';
 
-export function emailVerification(_userData: CreateUsersDto, code: number, isResetPassword: boolean = false) {
+export function emailVerification(_userData, code: number, isResetPassword: boolean = false) {
 
 
     // create reusable transporter object using the default SMTP transport

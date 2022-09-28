@@ -4,5 +4,5 @@ export class CheckEmailDto {
 
     @IsNotEmpty()
     @IsEmail()
-    readonly email: number;
+    readonly email: string;
 }

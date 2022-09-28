@@ -44,6 +44,13 @@ export class UsersService {
     }
 
     // #=======================================================================================#
+    // #                         get User by email for forgot password                         #
+    // #=======================================================================================#
+    async getUserByEmail(email: string): Promise<Users> {
+        return await this.usersRepository.findOneBy({ email });
+    }
+
+    // #=======================================================================================#
     // #                           get User by id for testing purpose                          #
     // #=======================================================================================#
     async getUserById(id: number): Promise<Users> {
