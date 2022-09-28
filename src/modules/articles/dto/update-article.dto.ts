@@ -10,7 +10,5 @@ export class UpdateArticleDto {
     @IsNotEmpty()
     readonly description: string;
 
-    @IsInt()
-    @IsNotEmpty()
-    readonly user: number;
+    user: number;
 }
