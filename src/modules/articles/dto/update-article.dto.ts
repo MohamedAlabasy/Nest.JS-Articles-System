@@ -9,4 +9,8 @@ export class UpdateArticleDto {
     @IsString()
     @IsNotEmpty()
     readonly description: string;
+
+    @IsInt()
+    @IsNotEmpty()
+    readonly user: number;
 }

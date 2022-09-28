@@ -1,12 +1,17 @@
-import { Controller, Get, Post, Patch, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Headers, Delete, HttpException, HttpStatus, Body, ValidationPipe, UsePipes, Param, ParseIntPipe } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto copy';
+import { UpdateArticleDto } from './dto/update-article.dto';
+import { GET_ID_FROM_TOKEN } from '../../utilities/get-id-from-token';
 
 @Controller('articles')
 export class ArticlesController {
     private data: any;
-    constructor(private readonly articlesService: ArticlesService) {
+    constructor(
+        private readonly articlesService: ArticlesService,
+        private readonly usersService: UsersService
+    ) {
         this.data = null;
     }
     // #=======================================================================================#
@@ -68,15 +73,24 @@ export class ArticlesController {
     // #=======================================================================================#
     // #			                        update articles                                    #
     // #=======================================================================================#
-    @Patch(':id')
+    @Patch(':_articleID')
     @UsePipes(ValidationPipe)
-    async updateArticle(@Param('id', ParseIntPipe) _id: number, @Body() _articleData: UpdateArticleDto) {
+    async updateArticle(@Param('_articleID', ParseIntPipe) _articleID: number, @Body() _articleData: UpdateArticleDto, @Headers() _headers) {
         try {
-            this.data = await this.articlesService.updateArticle(_id, _articleData)
-            console.log(this.data);
+            this.data = await this.usersService.getUserById(_articleData.user)
+            if (!this.data) {
+                throw new Error(`No user with this id = ${_articleData.user}`)
+            }
+
+            if (this.data.id !== GET_ID_FROM_TOKEN(_headers)) {
+                throw new Error('this article can only be modified by the person who created it')
+            }
+
+
+            this.data = await this.articlesService.updateArticle(_articleID, _articleData)
 
             if (this.data.affected === 0) {
-                throw new Error(`No articles with this id = ${_id}`)
+                throw new Error(`No articles with this id = ${_articleID}`)
             }
             return {
                 statusCode: 200,
@@ -90,14 +104,22 @@ export class ArticlesController {
     // #=======================================================================================#
     // #			                        delete articles                                    #
     // #=======================================================================================#
-    @Delete(':id')
-    async deleteArticle(@Param('id', ParseIntPipe) _id: number) {
+    @Delete(':_userID/:_articleID')
+    async deleteArticle(@Param('_userID', ParseIntPipe) _userID: number, @Param('_articleID', ParseIntPipe) _articleID: number, @Headers() _headers) {
         try {
-            this.data = await this.articlesService.deleteArticle(_id)
-            console.log(this.data.affected);
+            this.data = await this.usersService.getUserById(_userID)
+            if (!this.data) {
+                throw new Error(`No user with this id = ${_userID}`)
+            }
+
+            if (this.data.id !== GET_ID_FROM_TOKEN(_headers)) {
+                throw new Error('this article can only be modified by the person who created it')
+            }
+
+            this.data = await this.articlesService.deleteArticle(_articleID)
 
             if (this.data.affected === 0) {
-                throw new Error(`No articles with this id = ${_id}`)
+                throw new Error(`No articles with this id = ${_articleID}`)
             }
             return {
                 statusCode: 200,

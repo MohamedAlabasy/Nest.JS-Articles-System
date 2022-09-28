@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Articles } from 'src/database/entities/articles.entity';
 import { Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto copy';
+import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
