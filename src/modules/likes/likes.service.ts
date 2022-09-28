@@ -45,4 +45,10 @@ export class LikesService {
     async getAllLikeOnArticle(article: number): Promise<Likes[]> {
         return await this.likeRepository.find({ relations: ['user', 'article'], where: { article } })
     }
+    // #=======================================================================================#
+    // #			                        get like by id                                     #
+    // #=======================================================================================#
+    async getLikeByArticleId(article: number): Promise<Likes> {
+        return await this.likeRepository.findOne({ relations: ['user', 'article'], where: { article } })
+    }
 }

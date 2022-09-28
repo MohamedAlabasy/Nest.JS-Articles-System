@@ -8,10 +8,7 @@ export class CreateLikeDto {
 
     @IsInt()
     @IsNotEmpty()
-    readonly user: number;
-
-    @IsInt()
-    @IsNotEmpty()
     readonly article: number;
 
+    user: number;
 }
