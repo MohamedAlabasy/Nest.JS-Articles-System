@@ -54,10 +54,15 @@ export class ForgotPasswordController {
     @UsePipes(ValidationPipe)
     async resetUserPassword(@Body(HashPasswordPipe) _resetData: ResetPasswordDto) {
         try {
-            this.data = await this.forgotPasswordService.checkCode(_resetData)
+            this.data = await this.usersService.getUserByEmail(_resetData.email)
+            const userID = this.data.id;
+            if (!this.data) {
+                throw new Error(`Not user with this email = ${_resetData.email}`)
+            }
 
+            this.data = await this.forgotPasswordService.checkCode(_resetData.code, this.data.id)
             if (!this.data[0]) {
-                throw new Error(`No code send to user with id = ${_resetData.user}`)
+                throw new Error(`No code send to user with this email = ${_resetData.email}`)
             } else if (_resetData.code != this.data[0].code) {
                 throw new Error('invalid code');
             } else if (new Date() >= this.data[0].expire_at) {
@@ -65,8 +70,7 @@ export class ForgotPasswordController {
                 throw new Error('This code has expired');
             }
 
-            this.data = await this.usersService.resetUserPassword(_resetData.user, _resetData.password)
-
+            this.data = await this.usersService.resetUserPassword(userID, _resetData.password)
             if (this.data.affected === 0) {
                 throw new Error('an error occurred while changing the password, please try again');
             }

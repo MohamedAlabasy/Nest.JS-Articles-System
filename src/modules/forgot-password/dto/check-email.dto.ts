@@ -2,7 +2,7 @@ import { IsNotEmpty, IsEmail } from "class-validator";
 
 export class CheckEmailDto {
 
-    @IsNotEmpty()
     @IsEmail()
+    @IsNotEmpty()
     readonly email: string;
 }

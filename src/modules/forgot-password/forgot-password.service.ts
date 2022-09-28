@@ -26,8 +26,8 @@ export class ForgotPasswordService {
     // #=======================================================================================#
     // #			                        check code                                         #
     // #=======================================================================================#
-    async checkCode(_resetData: ResetPasswordDto): Promise<ForgotPassword> {
+    async checkCode(code: number, userId: number): Promise<ForgotPassword> {
         // this.data = await this.emailVerificationRepository.find({relations:['user'],where:{ userId: _resetData.user} })
-        return await this.forgotPasswordRepository.query(`select * from forgot_password where code = ${_resetData.code} and userId = ${_resetData.user}`)
+        return await this.forgotPasswordRepository.query(`select * from forgot_password where code = ${code} and userId = ${userId}`)
     }
 }
