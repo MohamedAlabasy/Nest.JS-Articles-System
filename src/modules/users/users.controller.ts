@@ -11,7 +11,7 @@ import { emailVerification } from '../../utilities/email/emailVerification';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
 import { CreateEmailActivateDto } from '../email-verification/dto/create-email-activate.dto';
 import { REGISTER_CODE, EXPIRE_CODE_TIME } from '../../utilities/common'
-import { EmailLowerCasePipe } from 'src/pipes/emial-lower-case.pipe';
+import { EmailLowerCasePipe } from 'src/pipes/email-lower-case.pipe';
 
 @Controller('users')
 export class UsersController {

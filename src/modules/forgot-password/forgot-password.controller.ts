@@ -5,7 +5,7 @@ import { CheckEmailDto } from './dto/check-email.dto';
 import { UsersService } from '../users/users.service';
 import { ForgotPasswordService } from './forgot-password.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { EmailLowerCasePipe } from 'src/pipes/emial-lower-case.pipe';
+import { EmailLowerCasePipe } from 'src/pipes/email-lower-case.pipe';
 import { HashPasswordPipe } from 'src/pipes/hash-password.pipe';
 
 @Controller('forgotPassword')

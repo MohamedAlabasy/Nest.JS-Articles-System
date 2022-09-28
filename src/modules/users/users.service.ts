@@ -24,7 +24,6 @@ export class UsersService {
             email: _userData.email,
             password: _userData.password,
             is_verification: false,
-            is_admin: false,
         });
         return await this.usersRepository.save(this.data);
     }

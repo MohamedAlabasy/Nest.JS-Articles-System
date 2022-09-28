@@ -25,9 +25,6 @@ export class Users {
     @Column()
     password: string;
 
-    @Column({ default: false })
-    is_admin: boolean;
-
     // for relations
     @OneToMany(() => Articles, (articles) => articles.user, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     articles: Articles[];
