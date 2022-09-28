@@ -41,11 +41,11 @@ npm run start:dev
 │   │
 │   ├── database
 │   │   └── entities => `for database entities`
-│   │         |── articles.entity.ts
-│   │         |── comments.entity.ts
-│   │         |── email-verification.entity.ts
-│   │         |── forgot-password.entity.ts
-│   │         |── likes.entity.ts
+│   │         ├── articles.entity.ts
+│   │         ├── comments.entity.ts
+│   │         ├── email-verification.entity.ts
+│   │         ├── forgot-password.entity.ts
+│   │         ├── likes.entity.ts
 │   │         └── users.entity.ts
 │   │
 │   │
@@ -56,17 +56,39 @@ npm run start:dev
 │   │
 │   ├── models
 │   │   ├── articles => `for handel articles code`
-│   │   |     └── dto => `for handel data transfer object for articles`
+│   │   │     ├── dto => `for handel data transfer object for articles`
+│   │   │     ├── articles.controller.ts => `for handel articles functions and routes (endpoints)`
+│   │   │     ├── articles.module.ts => `for handel articles Models`
+│   │   │     └── articles.service.ts => `for handel articles database connection and query`
+│   │   │
 │   │   │── comments => `for handel comments code`
-│   │   |     └── dto => `for handel data transfer object for comments`
+│   │   │     ├── dto
+│   │   │     ├── articles.controller.ts
+│   │   │     ├── articles.module.ts
+│   │   │     └── articles.service.ts
+│   │   │
 │   │   │── email-verification => `for handel email-verification code`
-│   │   |     └── dto => `for handel data transfer object for email-verification`
+│   │   │     ├── dto
+│   │   │     ├── articles.module.ts
+│   │   │     └── articles.service.ts
+│   │   │
 │   │   │── forgot-password => `for handel forgot-password code`
-│   │   |     └── dto => `for handel data transfer object for forgot-password`
+│   │   │     ├── dto
+│   │   │     ├── articles.controller.ts
+│   │   │     ├── articles.module.ts
+│   │   │     └── articles.service.ts
+│   │   │
 │   │   │── likes => `for handel likes code`
-│   │   |     └── dto => `for handel data transfer object for likes`
+│   │   │     ├── dto
+│   │   │     ├── articles.controller.ts
+│   │   │     ├── articles.module.ts
+│   │   │     └── articles.service.ts
+│   │   │
 │   │   └── users => `for handel users code`
-│   │         └── dto => `for handel data transfer object for users`
+│   │         ├── dto
+│   │         ├── articles.controller.ts
+│   │         ├── articles.module.ts
+│   │         └── articles.service.ts
 │   │
 │   │
 │   ├── pipes => `for handel custom pipe`
