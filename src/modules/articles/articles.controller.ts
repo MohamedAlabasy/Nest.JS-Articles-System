@@ -72,8 +72,6 @@ export class ArticlesController {
     @UsePipes(ValidationPipe)
     async updateArticle(@Param('id', ParseIntPipe) _id: number, @Body() _articleData: UpdateArticleDto) {
         try {
-            // console.log(_articleData);
-
             this.data = await this.articlesService.updateArticle(_id, _articleData)
             console.log(this.data);
 

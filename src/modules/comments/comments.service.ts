@@ -38,12 +38,6 @@ export class CommentsService {
         return await this.commentsRepository.update({ id }, {
             comment: _commentData.comment,
         })
-
-        // this.data = await this.commentsRepository.findOne({ relations: ['user', 'article'], where: { id } })
-        // return {
-        //     affected: affectedRow.affected,
-        //     data: this.data
-        // }
     }
 
     async getCommentById(id: number) {

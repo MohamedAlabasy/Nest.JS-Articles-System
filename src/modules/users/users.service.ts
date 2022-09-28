@@ -51,6 +51,13 @@ export class UsersService {
     }
 
     // #=======================================================================================#
+    // #                                  reset User password                                  #
+    // #=======================================================================================#
+    async resetUserPassword(id: number, password: string) {
+        return await this.usersRepository.update({ id }, { password })
+    }
+
+    // #=======================================================================================#
     // #                           get User by id for testing purpose                          #
     // #=======================================================================================#
     async getUserById(id: number): Promise<Users> {

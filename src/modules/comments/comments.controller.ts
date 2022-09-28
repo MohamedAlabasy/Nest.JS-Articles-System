@@ -53,8 +53,6 @@ export class CommentsController {
     @UsePipes(ValidationPipe)
     async updateComment(@Param('commentID', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto) {
         try {
-            // console.log(_articleData);
-
             this.data = await this.commentService.updateComment(_commentID, _commentData)
             console.log(this.data);
 

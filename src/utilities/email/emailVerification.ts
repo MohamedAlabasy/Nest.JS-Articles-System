@@ -2,7 +2,6 @@ import * as nodemailer from 'nodemailer';
 
 import EmailMessagesDesign from './emailMessagesDesign'
 import { PASS, USER } from '../../config/sendEmail.config'
-import { CreateUsersDto } from 'src/modules/users/dto/create-users.dto';
 
 export function emailVerification(_userData, code: number, isResetPassword: boolean = false) {
 

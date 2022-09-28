@@ -1,12 +1,13 @@
-import { IsNotEmpty,IsInt } from "class-validator";
+import { IsNotEmpty, IsInt, Length } from "class-validator";
 
 export class CreateEmailActivateDto {
 
-    @IsNotEmpty()
     @IsInt()
+    @Length(6, 6, { message: 'code must be 6 number' })
+    @IsNotEmpty()
     readonly code: number;
 
-    @IsNotEmpty()
     @IsInt()
+    @IsNotEmpty()
     readonly user: number;
 }

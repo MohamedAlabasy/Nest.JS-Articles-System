@@ -1,17 +1,17 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Headers, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UsersService } from './users.service';
-import { RegisterPipe } from './pipes/register.pipe';
+import { RegisterPipe } from '../../pipes/register.pipe';
 import { LoginDto } from './dto/login.dto';
-import { LoginPipe } from './pipes/login.pipe';
 import { ACCESS_TOKEN_SECRET } from '../../config/token.config';
 import { emailVerification } from '../../utilities/email/emailVerification';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
 import { CreateEmailActivateDto } from '../email-verification/dto/create-email-activate.dto';
 import { REGISTER_CODE, EXPIRE_CODE_TIME } from '../../utilities/common'
+import { EmailLowerCasePipe } from 'src/pipes/emial-lower-case.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -65,7 +65,7 @@ export class UsersController {
                 throw new Error(`Not send code to user with id = ${_emailActivateData.user}`)
             } else if (_emailActivateData.code != this.data[0].code) {
                 throw new Error('invalid code');
-            } else if (new Date() >= this.data.expire_at) {
+            } else if (new Date() >= this.data[0].expire_at) {
                 // If the code exceeds a certain time and it has not been used in this application for 24 hours
                 throw new Error('This code has expired');
             }
@@ -88,7 +88,7 @@ export class UsersController {
     // #=======================================================================================#
     @Post('login')
     @UsePipes(ValidationPipe)
-    async login(@Body(LoginPipe) _userData: LoginDto) {
+    async login(@Body(EmailLowerCasePipe) _userData: LoginDto) {
         try {
             this.data = await this.usersService.login(_userData);
 

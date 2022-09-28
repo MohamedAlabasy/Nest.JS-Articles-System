@@ -30,6 +30,6 @@ export class EmailVerificationService {
     // #=======================================================================================#
     async checkCode(_emailActivateData: CreateEmailActivateDto): Promise<EmailVerification> {
         // this.data = await this.emailVerificationRepository.find({relations:['user'],where:{ user: _emailActivateData.user} })
-        return await this.emailVerificationRepository.query(`select * from email_verification where userId = ${_emailActivateData.user}`)
+        return await this.emailVerificationRepository.query(`select * from email_verification where code = ${_emailActivateData.code} where userId = ${_emailActivateData.user}`)
     }
 }

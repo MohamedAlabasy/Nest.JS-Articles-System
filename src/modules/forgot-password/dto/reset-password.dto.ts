@@ -1,9 +1,11 @@
-import { IsNotEmpty, IsInt, IsString } from "class-validator";
+import { IsNotEmpty, IsInt, IsString, Length, Matches } from "class-validator";
+import { PASSWORD_RULE, PASSWORD_MESSAGE } from "../../../utilities/common";
 
 export class ResetPasswordDto {
 
-    @IsNotEmpty()
     @IsInt()
+    @Length(6, 6, { message: 'code must be 6 number' })
+    @IsNotEmpty()
     readonly code: number;
 
     @IsNotEmpty()
@@ -12,5 +14,7 @@ export class ResetPasswordDto {
 
     @IsNotEmpty()
     @IsString()
-    readonly password: number;
+    @Length(8, 24)
+    @Matches(PASSWORD_RULE, PASSWORD_MESSAGE)
+    readonly password: string;
 }
