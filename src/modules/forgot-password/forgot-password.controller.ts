@@ -10,13 +10,10 @@ import { HashPasswordPipe } from 'src/pipes/hash-password.pipe';
 
 @Controller('forgotPassword')
 export class ForgotPasswordController {
-    private data: any;
     constructor(
         private readonly forgotPasswordService: ForgotPasswordService,
         private readonly usersService: UsersService
-    ) {
-        this.data = null;
-    }
+    ) { }
     // #=======================================================================================#
     // #                          send User email code to rest password                        #
     // #=======================================================================================#
@@ -24,17 +21,18 @@ export class ForgotPasswordController {
     @UsePipes(ValidationPipe)
     async sendEmailCodeToRestPassword(@Body(EmailLowerCasePipe) _emailData: CheckEmailDto) {
         try {
-            this.data = await this.usersService.getUserByEmail(_emailData.email)
+            let data: any;
+            data = await this.usersService.getUserByEmail(_emailData.email)
 
-            if (!this.data) {
+            if (!data) {
                 throw new Error(`Not user with this email = ${_emailData.email}`)
             }
 
             const registerCode = REGISTER_CODE;
-            this.data = await this.forgotPasswordService.sendEmailCodeToRestPassword(registerCode, EXPIRE_CODE_TIME, this.data.id)
+            data = await this.forgotPasswordService.sendEmailCodeToRestPassword(registerCode, EXPIRE_CODE_TIME, this.data.id)
 
-            if (this.data)
-                emailVerification({ email: _emailData.email, name: this.data.name }, registerCode, true);
+            if (data)
+                emailVerification({ email: _emailData.email, name: data.name }, registerCode, true);
             else
                 throw new Error(`can't send email code to this email = ${_emailData.email}`)
 
@@ -54,24 +52,25 @@ export class ForgotPasswordController {
     @UsePipes(ValidationPipe)
     async resetUserPassword(@Body(HashPasswordPipe) _resetData: ResetPasswordDto) {
         try {
-            this.data = await this.usersService.getUserByEmail(_resetData.email)
-            const userID = this.data.id;
-            if (!this.data) {
+            let data: any;
+            data = await this.usersService.getUserByEmail(_resetData.email)
+            const userID = data.id;
+            if (!data) {
                 throw new Error(`Not user with this email = ${_resetData.email}`)
             }
 
-            this.data = await this.forgotPasswordService.checkCode(_resetData.code, this.data.id)
-            if (!this.data[0]) {
+            data = await this.forgotPasswordService.checkCode(_resetData.code, this.data.id)
+            if (!data[0]) {
                 throw new Error(`No code send to user with this email = ${_resetData.email}`)
-            } else if (_resetData.code != this.data[0].code) {
+            } else if (_resetData.code != data[0].code) {
                 throw new Error('invalid code');
-            } else if (new Date() >= this.data[0].expire_at) {
+            } else if (new Date() >= data[0].expire_at) {
                 // If the code exceeds a certain time and it has not been used in this application for 24 hours
                 throw new Error('This code has expired');
             }
 
-            this.data = await this.usersService.resetUserPassword(userID, _resetData.password)
-            if (this.data.affected === 0) {
+            data = await this.usersService.resetUserPassword(userID, _resetData.password)
+            if (data.affected === 0) {
                 throw new Error('an error occurred while changing the password, please try again');
             }
 

@@ -10,22 +10,19 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class UsersService {
-    private data: any;
-    constructor(@InjectRepository(Users) private usersRepository: Repository<Users>) {
-        this.data = null;
-    }
+    constructor(@InjectRepository(Users) private usersRepository: Repository<Users>) { }
 
     // #=======================================================================================#
     // #			                         create new user                                   #
     // #=======================================================================================#
     async createNewUser(_userData: CreateUsersDto): Promise<Users> {
-        this.data = this.usersRepository.create({
+        const data = this.usersRepository.create({
             name: _userData.name,
             email: _userData.email,
             password: _userData.password,
             is_verification: false,
         });
-        return await this.usersRepository.save(this.data);
+        return await this.usersRepository.save(data);
     }
     // #=======================================================================================#
     // #			                    activate user account                                  #

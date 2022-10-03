@@ -7,13 +7,10 @@ import { UpdateCommentDto } from './dto/update-comment.dto copy';
 
 @Controller('comments')
 export class CommentsController {
-    private data: any;
     constructor(
         private readonly commentService: CommentsService,
         private readonly articlesService: ArticlesService
-    ) {
-        this.data = null;
-    }
+    ) { }
     // #=======================================================================================#
     // #			                          create comment                                   #
     // #=======================================================================================#
@@ -22,20 +19,20 @@ export class CommentsController {
     async createArticle(@Body() _commentData: CreateCommentDto, @Headers() _headers) {
         try {
             _commentData.user = GET_ID_FROM_TOKEN(_headers)
-
-            this.data = await this.articlesService.getArticleById(_commentData.article)
-            if (!this.data) {
+            let data: any;
+            data = await this.articlesService.getArticleById(_commentData.article)
+            if (!data) {
                 throw new Error(`no articles with this id = ${_commentData.article}`)
             }
 
-            this.data = await this.commentService.createComment(_commentData)
-            if (this.data.affected === 0) {
+            data = await this.commentService.createComment(_commentData)
+            if (data.affected === 0) {
                 throw new Error(`can't create comment on this articles with this id = ${_commentData.article}`)
             }
 
             return {
                 statusCode: 200,
-                data: this.data
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -47,16 +44,16 @@ export class CommentsController {
     @Get(":articleID")
     async getAllCommentsOnArticles(@Param('articleID', ParseIntPipe) _articleID: number) {
         try {
-            this.data = await this.commentService.getAllCommentsOnArticles(_articleID)
+            const data = await this.commentService.getAllCommentsOnArticles(_articleID)
 
-            if (this.data.length == 0) {
+            if (data.length == 0) {
                 throw new Error('No comments on this articles to show')
             }
 
             return {
                 statusCode: 200,
-                count: this.data.length,
-                data: this.data
+                count: data.length,
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -70,18 +67,18 @@ export class CommentsController {
     async updateComment(@Param('commentID', ParseIntPipe) _commentID: number, @Body() _commentData: UpdateCommentDto, @Headers() _headers) {
         try {
             _commentData.user = GET_ID_FROM_TOKEN(_headers)
-
-            this.data = await this.commentService.getCommentById(_commentID)
-            if (!this.data) {
+            let data: any;
+            data = await this.commentService.getCommentById(_commentID)
+            if (!data) {
                 throw new Error(`no comment with this id = ${_commentID}`)
             }
 
-            if (this.data.user.id !== GET_ID_FROM_TOKEN(_headers)) {
+            if (data.user.id !== GET_ID_FROM_TOKEN(_headers)) {
                 throw new Error('this comment can only be modified by the person who created it')
             }
 
-            this.data = await this.commentService.updateComment(_commentID, _commentData)
-            if (this.data.affected === 0) {
+            data = await this.commentService.updateComment(_commentID, _commentData)
+            if (data.affected === 0) {
                 throw new Error('can\'t update this comment please try again')
             }
 
@@ -100,18 +97,18 @@ export class CommentsController {
     async deleteComment(@Param('commentID', ParseIntPipe) _commentID: number, @Headers() _headers) {
         try {
             const userID = GET_ID_FROM_TOKEN(_headers)
-
-            this.data = await this.commentService.getCommentById(_commentID)
-            if (!this.data) {
+            let data: any;
+            data = await this.commentService.getCommentById(_commentID)
+            if (!data) {
                 throw new Error(`no comment with this id = ${_commentID}`)
             }
 
-            if (this.data.user.id !== userID) {
+            if (data.user.id !== userID) {
                 throw new Error('this comment can only be deleted by the person who created it')
             }
 
-            this.data = await this.commentService.deleteComment(_commentID)
-            if (this.data.affected === 0) {
+            data = await this.commentService.deleteComment(_commentID)
+            if (data.affected === 0) {
                 throw new Error('can\'t delete this comment please try again')
             }
 

@@ -7,21 +7,18 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
-    private data: any;
-    constructor(@InjectRepository(Articles) private articlesRepository: Repository<Articles>) {
-        this.data = null;
-    }
+    constructor(@InjectRepository(Articles) private articlesRepository: Repository<Articles>) { }
 
     // #=======================================================================================#
     // #			                          create article                                   #
     // #=======================================================================================#
     async createArticle(_articleData: CreateArticleDto): Promise<Articles> {
-        this.data = this.articlesRepository.create({
+        const data = this.articlesRepository.create({
             title: _articleData.title,
             description: _articleData.description,
             user: _articleData.user
         });
-        return await this.articlesRepository.save(this.data)
+        return await this.articlesRepository.save(data)
     }
 
     // #=======================================================================================#
@@ -44,10 +41,10 @@ export class ArticlesService {
             title: _articleData.title,
             description: _articleData.description
         })
-        this.data = await this.articlesRepository.findOne({ relations: ['user'], where: { id } })
+        const data = await this.articlesRepository.findOne({ relations: ['user'], where: { id } })
         return {
             affected: affectedRow.affected,
-            data: this.data
+            data: data
         }
     }
     // #=======================================================================================#

@@ -6,21 +6,19 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class ForgotPasswordService {
-    private data: any;
-    constructor(@InjectRepository(ForgotPassword) private forgotPasswordRepository: Repository<ForgotPassword>) {
-        this.data = null;
-    }
+
+    constructor(@InjectRepository(ForgotPassword) private forgotPasswordRepository: Repository<ForgotPassword>) { }
     // #=======================================================================================#
     // #                          send User email code to rest password                        #
     // #=======================================================================================#
     async sendEmailCodeToRestPassword(code, expire_at, user): Promise<ForgotPassword> {
-        this.data = this.forgotPasswordRepository.create({
+        const data = this.forgotPasswordRepository.create({
             code,
             created_at: new Date(Date.now()),
             expire_at: new Date(Date.now() + expire_at),
             user
         })
-        return await this.forgotPasswordRepository.save(this.data)
+        return await this.forgotPasswordRepository.save(data)
     }
 
     // #=======================================================================================#

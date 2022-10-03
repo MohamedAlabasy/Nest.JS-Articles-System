@@ -7,21 +7,18 @@ import { UpdateCommentDto } from './dto/update-comment.dto copy';
 
 @Injectable()
 export class CommentsService {
-    private data: any;
-    constructor(@InjectRepository(Comments) private commentsRepository: Repository<Comments>) {
-        this.data = null;
-    }
+    constructor(@InjectRepository(Comments) private commentsRepository: Repository<Comments>) { }
 
     // #=======================================================================================#
     // #			                        create comment                                     #
     // #=======================================================================================#
     async createComment(_commentData: CreateCommentDto): Promise<Comments> {
-        this.data = this.commentsRepository.create({
+        const data = this.commentsRepository.create({
             comment: _commentData.comment,
             user: _commentData.user,
             article: _commentData.article
         });
-        return await this.commentsRepository.save(this.data)
+        return await this.commentsRepository.save(data)
     }
 
     // #=======================================================================================#

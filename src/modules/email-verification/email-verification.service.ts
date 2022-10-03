@@ -6,23 +6,20 @@ import { CreateEmailActivateDto } from './dto/create-email-activate.dto';
 
 @Injectable()
 export class EmailVerificationService {
-    private data: any;
 
-    constructor(@InjectRepository(EmailVerification) private emailVerificationRepository: Repository<EmailVerification>) {
-        this.data = null;
-    }
+    constructor(@InjectRepository(EmailVerification) private emailVerificationRepository: Repository<EmailVerification>) { }
 
     // #=======================================================================================#
     // #			                   create new email verification                           #
     // #=======================================================================================#
     async createNewEmailVerification(code, expire_at, user): Promise<EmailVerification> {
-        this.data = this.emailVerificationRepository.create({
+        const data = this.emailVerificationRepository.create({
             code,
             created_at: new Date(Date.now()),
             expire_at: new Date(Date.now() + expire_at),
             user
         });
-        return await this.emailVerificationRepository.save(this.data);
+        return await this.emailVerificationRepository.save(data);
     }
 
     // #=======================================================================================#

@@ -15,13 +15,10 @@ import { EmailLowerCasePipe } from 'src/pipes/email-lower-case.pipe';
 
 @Controller('users')
 export class UsersController {
-    private data: any;
     constructor(
         private readonly usersService: UsersService,
         private readonly emailVerificationService: EmailVerificationService
-    ) {
-        this.data = null;
-    }
+    ) { }
 
     // #=======================================================================================#
     // #			                            Register                                       #
@@ -30,26 +27,27 @@ export class UsersController {
     @UsePipes(ValidationPipe)
     async createNewUser(@Body(RegisterPipe) _userData: CreateUsersDto) {
         try {
-            this.data = await this.usersService.createNewUser(_userData)
+            let data: any;
+            data = await this.usersService.createNewUser(_userData)
 
             // use create and wanna send email code
-            if (this.data) {
+            if (data) {
                 // auto generate code = 6 numbers
                 const registerCode = REGISTER_CODE
-                const storeEmailCode = await this.emailVerificationService.createNewEmailVerification(registerCode, EXPIRE_CODE_TIME, this.data.id)
+                const storeEmailCode = await this.emailVerificationService.createNewEmailVerification(registerCode, EXPIRE_CODE_TIME, data.id)
 
                 if (storeEmailCode)
                     emailVerification(_userData, registerCode);
                 else
                     throw new Error(`can't send email code to this email = ${_userData.email}`)
             }
-            
+
             // to remove password from object before retune data to user 
-            delete this.data.password
+            delete data.password
             return {
                 statusCode: 200,
                 message: `The code has been sent to your email = ${_userData.email}`,
-                data: this.data
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -67,22 +65,22 @@ export class UsersController {
             if (_emailActivateData.code.toString().length !== 6) {
                 throw new Error('the code must be 6 number')
             }
+            let data: any;
+            data = await this.emailVerificationService.checkCode(_emailActivateData)
 
-            this.data = await this.emailVerificationService.checkCode(_emailActivateData)
-
-            if (!this.data) {
+            if (!data) {
                 throw new Error(`Not send code to user with id = ${_emailActivateData.user}`)
-            } else if (_emailActivateData.code != this.data[0].code) {
+            } else if (_emailActivateData.code != data[0].code) {
                 throw new Error('invalid code');
-            } else if (new Date() >= this.data[0].expire_at) {
+            } else if (new Date() >= data[0].expire_at) {
                 // If the code exceeds a certain time and it has not been used in this application for 24 hours
                 throw new Error('This code has expired');
             }
 
             // update user data is_verification = true
-            this.data = await this.usersService.activateUserAccount(_emailActivateData.user)
+            data = await this.usersService.activateUserAccount(_emailActivateData.user)
 
-            if (!this.data) throw new Error('can\'t activate this email');
+            if (!data) throw new Error('can\'t activate this email');
 
             return {
                 statusCode: 200,
@@ -99,29 +97,30 @@ export class UsersController {
     @UsePipes(ValidationPipe)
     async login(@Body(EmailLowerCasePipe) _userData: LoginDto) {
         try {
-            this.data = await this.usersService.login(_userData);
+            let data: any;
+            data = await this.usersService.login(_userData);
 
-            if (!this.data) {
+            if (!data) {
                 throw new Error(`there is no user with this email = ${_userData.email}`)
             }
 
-            const IsValidPassword: boolean = bcrypt.compareSync(_userData.password, this.data.password);
+            const IsValidPassword: boolean = bcrypt.compareSync(_userData.password, data.password);
             if (!IsValidPassword) {
                 throw new Error('invalid password')
             }
 
             // to add token
-            const token: string = 'Bearer ' + jwt.sign({ id: this.data.id, email: this.data.email, is_verification: this.data.is_verification }, ACCESS_TOKEN_SECRET as string, {
+            const token: string = 'Bearer ' + jwt.sign({ id: data.id, is_verification: data.is_verification }, ACCESS_TOKEN_SECRET as string, {
                 expiresIn: 86400 //for 24 hour
             });
 
             // to remove password from object before retune data to user 
-            delete this.data.password
-            
+            delete data.password
+
             return {
                 statusCode: 200,
                 token,
-                data: this.data
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)

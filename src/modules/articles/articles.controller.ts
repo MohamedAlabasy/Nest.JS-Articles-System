@@ -7,13 +7,10 @@ import { GET_ID_FROM_TOKEN } from '../../utilities/get-id-from-token';
 
 @Controller('articles')
 export class ArticlesController {
-    private data: any;
     constructor(
         private readonly articlesService: ArticlesService,
         private readonly usersService: UsersService
-    ) {
-        this.data = null;
-    }
+    ) { }
     // #=======================================================================================#
     // #			                          create Article                                   #
     // #=======================================================================================#
@@ -23,11 +20,11 @@ export class ArticlesController {
         try {
             _articleData.user = GET_ID_FROM_TOKEN(_headers)
 
-            this.data = await this.articlesService.createArticle(_articleData)
+            const data = await this.articlesService.createArticle(_articleData)
 
             return {
                 statusCode: 200,
-                data: this.data
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -39,14 +36,14 @@ export class ArticlesController {
     @Get(':id')
     async getArticleById(@Param('id', ParseIntPipe) _id: number) {
         try {
-            this.data = await this.articlesService.getArticleById(_id)
+            const data = await this.articlesService.getArticleById(_id)
 
-            if (!this.data) {
+            if (!data) {
                 throw new Error(`No articles with this id = ${_id}`)
             }
             return {
                 statusCode: 200,
-                data: this.data
+                data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -58,15 +55,15 @@ export class ArticlesController {
     @Get()
     async getAllArticles() {
         try {
-            this.data = await this.articlesService.getAllArticles()
+            const data = await this.articlesService.getAllArticles()
 
-            if (this.data.length == 0) {
+            if (data.length == 0) {
                 throw new Error('No articles to show')
             }
             return {
                 statusCode: 200,
-                count: this.data.length,
-                data: this.data
+                count: data.length,
+                data: data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -80,29 +77,29 @@ export class ArticlesController {
     async updateArticle(@Param('_articleID', ParseIntPipe) _articleID: number, @Body() _articleData: UpdateArticleDto, @Headers() _headers) {
         try {
             _articleData.user = GET_ID_FROM_TOKEN(_headers)
-
-            this.data = await this.usersService.getUserById(_articleData.user)
-            if (!this.data) {
+            let data: any;
+            data = await this.usersService.getUserById(_articleData.user)
+            if (!data) {
                 throw new Error(`No user with this id = ${_articleData.user}`)
             }
 
-            this.data = await this.articlesService.getArticleById(_articleID)
-            if (!this.data) {
+            data = await this.articlesService.getArticleById(_articleID)
+            if (!data) {
                 throw new Error(`no articles with this id = ${_articleID}`)
             }
 
-            if (this.data.user.id !== GET_ID_FROM_TOKEN(_headers)) {
+            if (data.user.id !== GET_ID_FROM_TOKEN(_headers)) {
                 throw new Error('this article can only be modified by the person who created it')
             }
 
-            this.data = await this.articlesService.updateArticle(_articleID, _articleData)
-            if (this.data.affected === 0) {
+            data = await this.articlesService.updateArticle(_articleID, _articleData)
+            if (data.affected === 0) {
                 throw new Error(`can't update articles with this id = ${_articleID}`)
             }
             return {
                 statusCode: 200,
                 message: 'articles updated successfully',
-                data: this.data.data
+                data: data.data
             }
         } catch (error) {
             return new HttpException(error.message, HttpStatus.BAD_REQUEST)
@@ -114,23 +111,24 @@ export class ArticlesController {
     @Delete(':_articleID')
     async deleteArticle(@Param('_articleID', ParseIntPipe) _articleID: number, @Headers() _headers) {
         try {
+            let data: any;
             const userID = GET_ID_FROM_TOKEN(_headers)
-            this.data = await this.usersService.getUserById(userID)
-            if (!this.data) {
+            data = await this.usersService.getUserById(userID)
+            if (!data) {
                 throw new Error(`No user with this id = ${userID}`)
             }
 
-            this.data = await this.articlesService.getArticleById(_articleID)
-            if (!this.data) {
+            data = await this.articlesService.getArticleById(_articleID)
+            if (!data) {
                 throw new Error(`no articles with this id = ${_articleID}`)
             }
 
-            if (this.data.user.id !== userID) {
+            if (data.user.id !== userID) {
                 throw new Error('this article can only be deleted by the person who created it')
             }
 
-            this.data = await this.articlesService.deleteArticle(_articleID)
-            if (this.data.affected === 0) {
+            data = await this.articlesService.deleteArticle(_articleID)
+            if (data.affected === 0) {
                 throw new Error(`can't delete articles with this id  = ${_articleID}`)
             }
 

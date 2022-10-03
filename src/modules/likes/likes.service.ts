@@ -6,10 +6,7 @@ import { CreateLikeDto } from './dto/create-like.dto';
 
 @Injectable()
 export class LikesService {
-    private data: any;
-    constructor(@InjectRepository(Likes) private likeRepository: Repository<Likes>) {
-        this.data = null;
-    }
+    constructor(@InjectRepository(Likes) private likeRepository: Repository<Likes>) { }
 
     // #=======================================================================================#
     // #			                      check like article                                   #
@@ -23,12 +20,12 @@ export class LikesService {
     // #			                      create like article                                  #
     // #=======================================================================================#
     async createLikeArticle(_likeData: CreateLikeDto): Promise<Likes> {
-        this.data = this.likeRepository.create({
+        const data = this.likeRepository.create({
             type: _likeData.type,
             article: _likeData.article,
             user: _likeData.user,
         });
-        return await this.likeRepository.save(this.data)
+        return await this.likeRepository.save(data)
     }
     // #=======================================================================================#
     // #			                        unlike article                                     #
