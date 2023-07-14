@@ -3,23 +3,23 @@
 ## Description:
 
 The goal of the project is to create articles by users and comment or like them after they create an account for them in the application and confirm their account by email.  
-Every person who created an article, comment or like can only edit or delete it whenever he wants.
+Every person who created an article, comment, or like can only edit or delete it whenever he wants.
 
 ## To run this project
 
-`Step 1` : To use this project must install [Node.js](https://nodejs.org/en/) and [Mysql](https://www.mysql.com/downloads/) as database Then Download the source code
+`Step 1` : To use this project must install [Node.js](https://nodejs.org/en/), [Nest.Js](https://nestjs.com/) and [Mysql](https://www.mysql.com/downloads/) as database Then Download the source code
 
 ```
 git clone https://github.com/MohamedAlabasy/Nest.JS-Articles-System.git
 ```
 
-`Step 2` : Enter the project file then install package
+`Step 2` : Enter the project file then install the package
 
 ```
 npm i
 ```
 
-`Step 3` : Create a database called `articles_system` , then to run server on watch mode :
+`Step 3` : Create a database called `articles_system`, then run the server on watch mode :
 
 ```
 npm run start:dev
@@ -51,7 +51,7 @@ npm run start:dev
 │   │
 │   ├── middleware
 │   │   ├── check-tokens.middleware.ts => `for check tokens on all requests`
-│   │   └── logger.middleware.middleware.ts => `for log url, method and statue of requests`
+│   │   └── logger.middleware.middleware.ts => `for log URL, method and statute of requests`
 │   │
 │   │
 │   ├── models
